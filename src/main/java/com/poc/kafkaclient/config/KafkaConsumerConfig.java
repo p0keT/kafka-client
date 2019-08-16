@@ -1,6 +1,6 @@
 package com.poc.kafkaclient.config;
 
-import com.poc.kafkaclient.dto.PrimeNumberReport;
+import com.poc.kafkaclient.dto.PrimeNumber;
 import com.poc.kafkaclient.dto.ReportStatus;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
@@ -75,17 +75,17 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public KafkaListenerContainerFactory<?> singlePrimeNumberStatusFactory() {
-        ConcurrentKafkaListenerContainerFactory<Long, PrimeNumberReport> factory =
+    public KafkaListenerContainerFactory<?> singlePrimeNumberFactory() {
+        ConcurrentKafkaListenerContainerFactory<Long, PrimeNumber> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerPrimeNumberStatusFactory());
+        factory.setConsumerFactory(consumerPrimeNumberFactory());
         factory.setBatchListener(false);
         factory.setMessageConverter(new StringJsonMessageConverter());
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<Long, PrimeNumberReport> consumerPrimeNumberStatusFactory() {
+    public ConsumerFactory<Long, PrimeNumber> consumerPrimeNumberFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 

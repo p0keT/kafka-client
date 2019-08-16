@@ -1,15 +1,12 @@
 package com.poc.kafkaclient.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@ToString
-public class ReportStatus {
-    private String report_id;
+public class ReportStatus extends AbstractDto{
     private byte readiness_percentage;
+
+    public ReportStatus() {
+        readiness_percentage=0;
+    }
 }

@@ -35,14 +35,16 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<Long, PrimeIndex> producerMessageFactory() {
+    public ProducerFactory<Long, PrimeIndex> producerPrimeIndexMessageFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<Long, PrimeIndex> kafkaTemplate() {
-        KafkaTemplate<Long, PrimeIndex> template = new KafkaTemplate<>(producerMessageFactory());
+    public KafkaTemplate<Long, PrimeIndex> kafkaPrimeIndexTemplate() {
+        KafkaTemplate<Long, PrimeIndex> template = new KafkaTemplate<>(producerPrimeIndexMessageFactory());
         template.setMessageConverter(new StringJsonMessageConverter());
         return template;
     }
+
+
 }
