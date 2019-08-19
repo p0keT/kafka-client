@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/report")
 public class PrimeNumberController {
 
     private final PrimeNumberServiceImpl service;
@@ -24,15 +25,13 @@ public class PrimeNumberController {
         this.service = service;
     }
 
-    @GetMapping
-    public String report(Map<String, Object> model) {
+    @GetMapping("/new")
+    public String newReport(Map<String, Object> model) {
         return "report";
     }
 
     @PostMapping("/new")
-    public String send(@RequestParam int primeIndex) {
-
-        //TODO: глянути, може можна замапити сам об'єкт, а не int
+    public String createReport(@RequestParam int primeIndex) {
         PrimeIndex pi = new PrimeIndex();
         pi.setPrime_index(primeIndex);
         pi.setCreated(LocalDateTime.now());
@@ -43,9 +42,8 @@ public class PrimeNumberController {
 
     @GetMapping("/status")
     public String status(Model model) {
-        //model.put("status",service.getCurrentReportStatus().getReadiness_percentage());
         List<Report> reports = service.getReports();
-        List<String> stringReports = reports.stream().map(report -> report.getReport()).collect(Collectors.toList());
+        List<String> stringReports = reports.stream().map(report -> report.performReport()).collect(Collectors.toList());
         model.addAttribute("reports",stringReports);
         return "status";
     }

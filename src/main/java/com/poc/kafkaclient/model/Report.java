@@ -14,7 +14,7 @@ public class Report {
     private ReportStatus reportStatus;
 
 
-    public String getReport(){
+    public String performReport(){
         if(reportStatus.getReadiness_percentage()<100 && primeNumber.getPrimeNumber()==0L){
             return "Report ("+primeIndex.getId()+") for "+primeIndex.getPrime_index()+"'s prime number: is not completed yet!!! \n" +
                     "Readiness of the report is "+reportStatus.getReadiness_percentage()+"%";
