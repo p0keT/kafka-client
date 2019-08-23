@@ -17,6 +17,8 @@ Client service can:
 * retrieve report once completed
 
 Kafka is used for messages exchanging between client service and report service instances.
+It contains three topics: the topic for requesting a report, for checking the status of the report and for receiving a finished report.
+
 ELK stack log sent requests and results of calculation.
 
 
@@ -32,7 +34,7 @@ You should install:
 ## Starting
 0. Install and configure all required software.
 1. Start zookeeper and kafka servers.
-2. Create needed topics (report_requests, completed_reports, report_status).
+2. Create topics for report requests, reports statuses and for completed reports.
 3. Configure application.properties in service instances.
 4. Start Elasticsearch and Kibana instances.
 5. Configure logstash.conf in report service instance.

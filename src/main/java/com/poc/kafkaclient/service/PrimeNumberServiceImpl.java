@@ -6,6 +6,7 @@ import com.poc.kafkaclient.dto.ReportStatus;
 import com.poc.kafkaclient.model.Report;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -30,11 +31,11 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     public void produce(PrimeIndex primeIndex) {
         log.info("<= sending {}", primeIndex);
         this.reports.add(new Report(primeIndex, new PrimeNumber(), new ReportStatus()));
-        kafkaPrimeIndexTemplate.send("report_requests", primeIndex);
+        kafkaPrimeIndexTemplate.send("topic.report.requests", primeIndex);
     }
 
     @Override
-    @KafkaListener(id = "report.status", topics = {"report_status"}, containerFactory = "singleReportStatusFactory")
+    @KafkaListener(id = "report.status", topics = {"topic.report.status"}, containerFactory = "singleReportStatusFactory")
     public void consume(ReportStatus reportStatus) {
         Report currentReport = reports.stream()
                 .filter(report -> report.getPrimeIndex().getId().equals(reportStatus.getId()))
@@ -48,7 +49,7 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     }
 
     @Override
-    @KafkaListener(id = "prime.number.report", topics = {"completed_reports"}, containerFactory = "singlePrimeNumberFactory")
+    @KafkaListener(id = "prime.number.report", topics = {"topic.report.completed"}, containerFactory = "singlePrimeNumberFactory")
     public void consume(PrimeNumber primeNumber) {
         System.out.println("PrimeNumber: "+primeNumber.toString());
         Report currentReport = reports.stream()
